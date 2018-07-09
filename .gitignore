@@ -1,2 +1,4 @@
 trash/
-.ipynb_checkpoints/
+tweets_in_a_day/
+.env.ipynb_checkpoints/
+.env

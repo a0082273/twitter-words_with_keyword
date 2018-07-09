@@ -7,11 +7,18 @@ from abc import ABCMeta, abstractmethod
 import csv
 import pandas as pd
 from pykakasi import kakasi
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
-CK = '3ZNIhrv2S6unYYS212eCT2OzF'                             # Consumer Key
-CS = 'IHui5X0OMae6r6GuBsAlqqAnr2tua9FHtDFxXIKr2BuUwnvXzI'    # Consumer Secret
-AT = '1010769007-BU1MG4dDxcTmBmG1saENkfPcDqFGDAemqETuUI3'    # Access Token
-AS = 'b9rC3W8LlNQrvrNKkSdlVNHrYcfFsQ1q47AhhD9A63h5T'         # Accesss Token Secert
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+CK= os.environ.get("CK")
+CS= os.environ.get("CS")
+AT= os.environ.get("AT")
+AS= os.environ.get("AS")
+
 
 class TweetsGetter(object):
     __metaclass__ = ABCMeta
@@ -197,19 +204,17 @@ class TweetsGetterBySearch(TweetsGetter):
 
 
 if __name__ == '__main__':
-    # キーワードで取得
     kakasi = kakasi()
     kakasi.setMode('H', 'a')
     kakasi.setMode('K', 'a')
     kakasi.setMode('J', 'a')
     conv = kakasi.getConverter()
 
-    keyword = '瑞浪'
+    keyword = '恵那' #edit
     keyword_romaji = conv.do(keyword)
-    since = '2018-07-01'
-    until = '2018-07-06'
+    since = '2018-07-01' #edit
+    until = '2018-07-02' #edit
 
-#    getter = TweetsGetter.bySearch(u'瑞浪')
     getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
 
     df = pd.DataFrame(columns=["time", "id", "name", "text"])
@@ -223,23 +228,4 @@ if __name__ == '__main__':
 
         df = df.append(new_col, ignore_index=True)
 
-
-
-
-
-    # df = pd.DataFrame(index=range(1000), columns=["time", "id", "name", "text"])
-    # cnt = 0
-    # for tweet in getter.collect(total = 1000):
-    #     date_time = (tweet["created_at"])
-    #     id = (tweet["user"]["screen_name"])
-    #     name = (tweet["user"]["name"])
-    #     text = (tweet["text"])
-
-    #     df['time'][cnt] = date_time
-    #     df['id'][cnt] = id
-    #     df['name'][cnt] = name
-    #     df['text'][cnt] = text
-
-    #     cnt += 1
-
-    df.to_csv(keyword_romaji+'.csv')
+    df.to_csv('tweets_in_a_day/'+keyword_romaji+since+'.csv')
