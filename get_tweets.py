@@ -210,15 +210,17 @@ if __name__ == '__main__':
     kakasi.setMode('J', 'a')
     conv = kakasi.getConverter()
 
-    keyword = '瑞浪' #edit
+    keyword_list = ['恵那', '中津川', '多治見', '瑞浪', '岩村', '串原', '上矢作', '大湫', '稲津',
+                    '明世', '日吉', '釜戸', '陶', '山岡', '土岐', '明智']
+    keyword = keyword_list[16]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     keyword_romaji = conv.do(keyword)
-    since = '2018-06-30' #edit
-    until = '2018-07-07' #edit
+    since = '2018-06-30'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    until = '2018-07-07'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
 
     df = pd.DataFrame(columns=["time", "id", "name", "text"])
-    for tweet in getter.collect(total = 3000):
+    for tweet in getter.collect(total = 30000):
         date_time = (tweet["created_at"])
         id = (tweet["user"]["screen_name"])
         name = (tweet["user"]["name"])
