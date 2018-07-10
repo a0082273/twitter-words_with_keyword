@@ -212,21 +212,31 @@ if __name__ == '__main__':
 
     keyword_list = ['恵那', '中津川', '多治見', '瑞浪', '岩村', '串原', '上矢作', '大湫', '稲津',
                     '明世', '日吉', '釜戸', '陶', '山岡', '土岐', '明智']
-    keyword = keyword_list[16]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    keyword = keyword_list[0]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     keyword_romaji = conv.do(keyword)
     since = '2018-06-30'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     until = '2018-07-07'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
 
-    df = pd.DataFrame(columns=["time", "id", "name", "text"])
+    df = pd.DataFrame(columns=["time", "id", "name", "profile", "n_following",
+                               "n_followed", "n_tweets", "adress", "n_favorited","text"])
     for tweet in getter.collect(total = 30000):
         date_time = (tweet["created_at"])
         id = (tweet["user"]["screen_name"])
         name = (tweet["user"]["name"])
+        profile = (tweet["user"]["description"])
+        n_following = (tweet["user"]["friends_count"])
+        n_followed = (tweet["user"]["followers_count"])
+        n_tweets = (tweet["user"]["statuses_count"])
+        addres = (tweet["user"]["location"])
+        n_favorited = (tweet["favorite_count"])
         text = (tweet["text"])
 
-        new_col = pd.Series([date_time, id, name, text], index=["time", "id", "name", "text"])
+        new_col = pd.Series([date_time, id, name, profile, n_following,
+                             n_followed, n_tweets, addres, n_favorited, text],
+                            index=["time", "id", "name", "profile", "n_following",
+                                   "n_followed", "n_tweets", "adress", "n_favorited","text"])
 
         df = df.append(new_col, ignore_index=True)
 
