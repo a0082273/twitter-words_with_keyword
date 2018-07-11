@@ -211,11 +211,12 @@ if __name__ == '__main__':
     conv = kakasi.getConverter()
 
     keyword_list = ['恵那', '中津川', '多治見', '瑞浪', '岩村', '串原', '上矢作', '大湫', '稲津',
-                    '明世', '日吉', '釜戸', '陶', '山岡', '土岐', '明智']
-    keyword = keyword_list[0]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    '明世', '日吉', '釜戸', '陶', '山岡', '土岐', '明智',
+                    '"おばあちゃん市"', '"サイエンスワールド"', '"きなあた" OR "きなぁた"']
+    keyword = keyword_list[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     keyword_romaji = conv.do(keyword)
-    since = '2018-06-30'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    until = '2018-07-07'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    since = '2018-07-01'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    until = '2018-07-08'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
 
