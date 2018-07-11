@@ -179,7 +179,7 @@ class TweetsGetterBySearch(TweetsGetter):
         呼出し先 URL、パラメータを返す
         '''
         url = 'https://api.twitter.com/1.1/search/tweets.json'
-        params = {'q':self.keyword, 'count':100}
+        params = {'q':'', 'geocode':self.keyword, 'count':100}
         return url, params
 
     def pickupTweet(self, res_text):
@@ -210,15 +210,18 @@ if __name__ == '__main__':
     kakasi.setMode('J', 'a')
     conv = kakasi.getConverter()
 
-    keyword_list = ['恵那', '中津川', '多治見', '瑞浪', '岩村', '串原', '上矢作', '大湫', '稲津',
-                    '明世', '日吉', '釜戸', '陶', '山岡', '土岐', '明智',
-                    '"おばあちゃん市"', '"サイエンスワールド"', '"きなあた" OR "きなぁた"']
-    keyword = keyword_list[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    keyword_romaji = conv.do(keyword)
+    city_dict = {'enaeki': '35.455324,137.407795,5km', #恵那駅中心に、瑞浪駅に合わせて5km
+                 'yamaoka': '35.329932,137.355972,5km', #山岡町全体
+                 'iwamura': '35.359858,137.438441,4km', #岩村町全体
+                 'mizunamieki': '35.369230,137.252042,5km', #瑞浪駅中心に、土岐市駅周辺を含まないくらい
+                 'okute': '35.439830,137.296237,3km', #大湫町
+                 'nagoyaeki': '35.171348,136.883000,5km'} #名古屋
+    city = list(city_dict.keys())[5]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    city_geo = list(city_dict.values())[5]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     since = '2018-07-01'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     until = '2018-07-08'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
+    getter = TweetsGetter.bySearch(city_geo+' since:'+since+' until:'+until)
 
     df = pd.DataFrame(columns=["time", "id", "name", "profile", "n_following",
                                "n_followed", "n_tweets", "adress", "n_favorited","text"])
@@ -241,4 +244,4 @@ if __name__ == '__main__':
 
         df = df.append(new_col, ignore_index=True)
 
-    df.to_csv('tweets_in_a_week/keyword/'+keyword_romaji+since+'.csv')
+    df.to_csv('tweets_in_a_week/geocode/'+city+since+'.csv')
