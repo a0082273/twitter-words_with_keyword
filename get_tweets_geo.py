@@ -211,18 +211,31 @@ if __name__ == '__main__':
     kakasi.setMode('J', 'a')
     conv = kakasi.getConverter()
 
-    city_dict = {'enaeki': '35.455324,137.407795,5km', #恵那駅中心に、瑞浪駅に合わせて5km
-                 'yamaoka': '35.329932,137.355972,5km', #山岡町全体
-                 'iwamura': '35.359858,137.438441,4km', #岩村町全体
-                 'mizunamieki': '35.369230,137.252042,5km', #瑞浪駅中心に、土岐市駅周辺を含まないくらい
-                 'okute': '35.439830,137.296237,3km', #大湫町
-                 'nagoyaeki': '35.171348,136.883000,5km'} #名古屋
-    city = list(city_dict.keys())[0]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    city_geo = list(city_dict.values())[0]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    since = '2018-07-01'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    until = '2018-07-08'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    location_dict = {'yamaoka': '35.329932,137.355972,5km', #山岡町全体
+                     'iwamura': '35.359858,137.438441,4km', #岩村町全体
+                     'okute': '35.439830,137.296237,3km', #大湫町
+#station
+                     'nakatsugawa': '35.50009,137.502939,3km', #中津川駅中心に3km
+                     'ena': '35.455031,137.40803,3km', #恵那駅
+                     'mizunami': '35.369016,137.252072,3km', #瑞浪駅
+                     'tokishi': '35.359764,137.182195,3km', #土岐市
+                     'tajimi': '35.334979,137.121042,3km', #多治見
+                     'kozoji': '35.264438,137.043071,3km', #高蔵寺
+                     'kasugai': '35.243034,136.98509,3km', #春日井
+                     'kachigawa': '35.229857,136.956302,3km', #勝川
+                     'ozone': '35.191489,136.936846,3km', #大曽根
+                     'chikusa': '35.170167,136.930662,3km', #千種
+                     'tsurumai': '35.156389,136.917527,3km', #鶴舞
+                     'kanayama': '35.143045,136.900905,3km', #金山
+                     'nagoya': '35.171348,136.883000,3km', #名古屋駅
+#
+                     'aichiken_taikukan': '35.183071,136.902576,0.2km'} #大相撲名古屋場所
+    location = list(location_dict.keys())[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    location_geo = list(location_dict.values())[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    since = '2018-07-08'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    until = '2018-07-09'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    getter = TweetsGetter.bySearch(city_geo+' since:'+since+' until:'+until)
+    getter = TweetsGetter.bySearch(location_geo+' since:'+since+' until:'+until)
 
     df = pd.DataFrame(columns=["time", "id", "name", "profile", "n_following",
                                "n_followed", "n_tweets", "adress", "n_favorited","text"])
@@ -245,4 +258,5 @@ if __name__ == '__main__':
 
         df = df.append(new_col, ignore_index=True)
 
-    df.to_csv('tweets_in_a_week/geocode/'+city+since+'.csv')
+#    df.to_csv('tweets_in_a_week/geocode/'+location+since+'.csv')   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    df.to_csv('tweets_in_a_day/geocode/'+location+since+'.csv')

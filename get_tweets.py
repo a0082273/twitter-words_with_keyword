@@ -212,11 +212,12 @@ if __name__ == '__main__':
 
     keyword_list = ['恵那', '中津川', '多治見', '瑞浪', '岩村', '串原', '上矢作', '大湫', '稲津',
                     '明世', '日吉', '釜戸', '陶', '山岡', '土岐', '明智',
-                    '"おばあちゃん市"', '"サイエンスワールド"', '"きなあた" OR "きなぁた"']
+                    '"おばあちゃん市"', '"サイエンスワールド"', '"きなあた" OR "きなぁた"',
+                    '相撲']
     keyword = keyword_list[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     keyword_romaji = conv.do(keyword)
-    since = '2018-07-01'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    until = '2018-07-08'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    since = '2018-07-12'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    until = '2018-07-13'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
 
@@ -241,4 +242,5 @@ if __name__ == '__main__':
 
         df = df.append(new_col, ignore_index=True)
 
-    df.to_csv('tweets_in_a_week/keyword/'+keyword_romaji+since+'.csv')
+#    df.to_csv('tweets_in_a_week/keyword/'+keyword_romaji+since+'.csv')   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    df.to_csv('tweets_in_a_day/keyword/'+keyword_romaji+since+'.csv')
