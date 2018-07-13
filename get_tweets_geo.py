@@ -179,6 +179,7 @@ class TweetsGetterBySearch(TweetsGetter):
         呼出し先 URL、パラメータを返す
         '''
         url = 'https://api.twitter.com/1.1/search/tweets.json'
+#        params = {'q':'exclude:retweets', 'geocode':self.keyword, 'count':100}
         params = {'q':'', 'geocode':self.keyword, 'count':100}
         return url, params
 
@@ -216,8 +217,8 @@ if __name__ == '__main__':
                  'mizunamieki': '35.369230,137.252042,5km', #瑞浪駅中心に、土岐市駅周辺を含まないくらい
                  'okute': '35.439830,137.296237,3km', #大湫町
                  'nagoyaeki': '35.171348,136.883000,5km'} #名古屋
-    city = list(city_dict.keys())[5]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    city_geo = list(city_dict.values())[5]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    city = list(city_dict.keys())[0]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    city_geo = list(city_dict.values())[0]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     since = '2018-07-01'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
     until = '2018-07-08'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
 
