@@ -210,37 +210,82 @@ if __name__ == '__main__':
     kakasi.setMode('J', 'a')
     conv = kakasi.getConverter()
 
-    keyword_list = ['恵那', '中津川', '多治見', '瑞浪', '岩村', '串原', '上矢作', '大湫', '稲津',
-                    '明世', '日吉', '釜戸', '陶', '山岡', '土岐', '明智',
-                    '"おばあちゃん市"', '"サイエンスワールド"', '"きなあた" OR "きなぁた"',
-                    '相撲']
-    keyword = keyword_list[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    keyword_romaji = conv.do(keyword)
-    since = '2018-07-12'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    until = '2018-07-13'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+    keyword_list = [#'恵那', '中津川', '多治見', '瑞浪', '岩村', '串原', '上矢作', '大湫', '稲津',
+                    #'明世', '日吉', '釜戸', '陶', '山岡', '土岐', '明智',
+                    #'"おばあちゃん市"', '"サイエンスワールド"', '"きなあた" OR "きなぁた"',
+                    #'相撲',
+                    '鶴竜', '白鵬', '稀勢の里', '日馬富士',
+                    '豪栄道', '高安', '栃ノ心',
+                    '御嶽海', '玉鷲', '松鳳山',
+                    '正代', '琴奨菊', '千代の国', '阿炎', '貴景勝', '魁聖', '大翔丸',
+                    '嘉風', '千代大龍', '宝富士', '大栄翔', '千代翔馬', '旭大星', '妙義龍',
+                    '豊山', '千代丸', '錦木', '碧山', '阿武咲', '佐田の海', '荒鷲', '栃煌山',
+                    '朝乃山', '琴恵光', '隠岐の海', '石浦', '竜電', '北勝富士', '明生',
+                    '宮城野', '田子ノ浦', '境川', '春日野', '出羽海', '片男波', '二所ノ関',
+                    '時津風', '佐渡ヶ嶽', '伊勢ノ海', '九重', '貴乃花', '服部桜',
+                    '勢', '輝', '遠藤' #この3人合わせると55単語
+    ]
 
-    getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
+    for i in range(52):
+        keyword = keyword_list[i]   #edit!!!
+        keyword_romaji = conv.do(keyword)
+        since = '2018-07-12'   #edit!!!
+        until = '2018-07-13'   #edit!!!
 
-    df = pd.DataFrame(columns=["time", "id", "name", "profile", "n_following",
-                               "n_followed", "n_tweets", "adress", "n_favorited","text"])
-    for tweet in getter.collect(total = 30000):
-        date_time = (tweet["created_at"])
-        id = (tweet["user"]["screen_name"])
-        name = (tweet["user"]["name"])
-        profile = (tweet["user"]["description"])
-        n_following = (tweet["user"]["friends_count"])
-        n_followed = (tweet["user"]["followers_count"])
-        n_tweets = (tweet["user"]["statuses_count"])
-        addres = (tweet["user"]["location"])
-        n_favorited = (tweet["favorite_count"])
-        text = (tweet["text"])
+        getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
 
-        new_col = pd.Series([date_time, id, name, profile, n_following,
-                             n_followed, n_tweets, addres, n_favorited, text],
-                            index=["time", "id", "name", "profile", "n_following",
+        df = pd.DataFrame(columns=["time", "id", "name", "profile", "n_following",
                                    "n_followed", "n_tweets", "adress", "n_favorited","text"])
+        for tweet in getter.collect(total = 30000):
+            date_time = (tweet["created_at"])
+            id = (tweet["user"]["screen_name"])
+            name = (tweet["user"]["name"])
+            profile = (tweet["user"]["description"])
+            n_following = (tweet["user"]["friends_count"])
+            n_followed = (tweet["user"]["followers_count"])
+            n_tweets = (tweet["user"]["statuses_count"])
+            addres = (tweet["user"]["location"])
+            n_favorited = (tweet["favorite_count"])
+            text = (tweet["text"])
 
-        df = df.append(new_col, ignore_index=True)
+            new_col = pd.Series([date_time, id, name, profile, n_following,
+                                 n_followed, n_tweets, addres, n_favorited, text],
+                                index=["time", "id", "name", "profile", "n_following",
+                                       "n_followed", "n_tweets", "adress", "n_favorited","text"])
 
-#    df.to_csv('tweets_in_a_week/keyword/'+keyword_romaji+since+'.csv')   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    df.to_csv('tweets_in_a_day/keyword/'+keyword_romaji+since+'.csv')
+            df = df.append(new_col, ignore_index=True)
+
+        df.to_csv('tweets_in_a_day/keyword/'+keyword_romaji+since+'.csv')
+
+
+
+#     keyword = keyword_list[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+#     keyword_romaji = conv.do(keyword)
+#     since = '2018-07-12'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+#     until = '2018-07-13'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#     getter = TweetsGetter.bySearch(keyword+' since:'+since+' until:'+until)
+
+#     df = pd.DataFrame(columns=["time", "id", "name", "profile", "n_following",
+#                                "n_followed", "n_tweets", "adress", "n_favorited","text"])
+#     for tweet in getter.collect(total = 30000):
+#         date_time = (tweet["created_at"])
+#         id = (tweet["user"]["screen_name"])
+#         name = (tweet["user"]["name"])
+#         profile = (tweet["user"]["description"])
+#         n_following = (tweet["user"]["friends_count"])
+#         n_followed = (tweet["user"]["followers_count"])
+#         n_tweets = (tweet["user"]["statuses_count"])
+#         addres = (tweet["user"]["location"])
+#         n_favorited = (tweet["favorite_count"])
+#         text = (tweet["text"])
+
+#         new_col = pd.Series([date_time, id, name, profile, n_following,
+#                              n_followed, n_tweets, addres, n_favorited, text],
+#                             index=["time", "id", "name", "profile", "n_following",
+#                                    "n_followed", "n_tweets", "adress", "n_favorited","text"])
+
+#         df = df.append(new_col, ignore_index=True)
+
+# #    df.to_csv('tweets_in_a_week/keyword/'+keyword_romaji+since+'.csv')   #edit!!!
+#     df.to_csv('tweets_in_a_day/keyword/'+keyword_romaji+since+'.csv')
