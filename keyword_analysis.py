@@ -6,22 +6,23 @@ import re
 from collections import Counter
 from wordcloud import WordCloud
 
-keyword_list = ['tsururyuu', 'shiroootori', 'mareseinosato', 'kusamafuji',
+keyword_list = ['sumou',
+                'tsururyuu', 'shiroootori', 'mareseinosato', 'kusamafuji',
                 'goueidou', 'takayasu', 'tochinokokoro',
                 'ontakeumi', 'tamawashi', 'matsuootoriyama',
-                'shoudai', 'konshoukiku', 'chiyonokuni', 'ahonoo', 'takashikeishou', 'kaihijiri', 'daishoumaru',
-                'kakaze', 'chiyodairyuu', 'takarafuji', 'daieishou', 'chiyoshouuma', 'asahidaihoshi', 'myougiryuu',
-                'yutakayama', 'chiyomaru', 'nishikiki', 'hekiyama', 'abusaki', 'sadanoumi', 'kouwashi', 'tochikouyama',
-                'asanoyama', 'konmegumihikari', 'okinoumi', 'ishiura', 'ryuuden', 'kitakachifuji', 'akiumi',
-                'miyagino', 'tagonoura', 'sakaikawa', 'kasugano', 'dewanoumi', 'henotokonami', 'nitokoronokan',
-                'tokitsukaze', 'sadokegaku', 'isenoumi', 'kokonoe', 'takashinohana', 'hattorisakura',
-                #'勢', '輝', '遠藤' #この3人合わせると55単語
-               ]
+                'shoudai', 'konshoukiku', 'chiyonokuni', 'ahonoo', 'takashikeishou', 'kaihijiri',
+                'daishoumaru', 'kakaze', 'chiyodairyuu', 'takarafuji', 'daieishou',
+                'chiyoshouuma', 'asahidaihoshi', 'myougiryuu', 'yutakayama', 'chiyomaru',
+                'nishikiki', 'hekiyama', 'abusaki', 'sadanoumi', 'kouwashi', 'tochikouyama',
+                'asanoyama', 'konmegumihikari', 'okinoumi', 'ishiura', 'ryuuden',
+                'kitakachifuji', 'akiumi', 'hattorisakura',
+                '#sumo', '#sumou', '#oozumou', '#nagoyabasho',
+]
 
 
-for i in range(37):
-    keyword = keyword_list[15+i]
-    period = '2018-07-08' #edit!!!!!!!!!
+for i in range(len(keyword_list)):
+    keyword = keyword_list[i+30]
+    period = '2018-07-16' #edit!!!!!!!!!
     infile = "tweets_in_a_day/keyword/"+keyword+period+".csv" #edit!!!!!!!!!
     outfile = "tweets_in_a_day/keyword/"+keyword+period+".png"
     datas = pd.read_csv(open(infile, 'rU'), encoding='utf-8')
@@ -32,12 +33,14 @@ for i in range(37):
     for col in range(datas.shape[0]):
         if type(datas.text[col]) != str:
             print('-'*40)
-            print(col)
-            print(type(datas.name[col]), type(datas.profile[col]), type(datas.text[col]),)
-            print(datas.iloc[col])
+            print('nan in text: keyword={}, col={}'.format(keyword, col))
             improper_col.append(col)
-            datas = datas.drop(improper_col, axis=0)
-            datas = datas.reset_index(drop=True)
+        # elif type(datas.name[col]) != str:
+        #     datas.name[col] = 'nan_name'
+        # elif type(datas.profile[col]) != str:
+        #     datas.profile[col] = 'nan_profile'
+    datas = datas.drop(improper_col, axis=0)
+    datas = datas.reset_index(drop=True)
 
     datas['n_following'] = datas['n_following'].astype('int')
     datas['n_followed'] = datas['n_followed'].astype('int')
@@ -56,14 +59,15 @@ for i in range(37):
     ]
 
     for col in range(datas.shape[0]):
-        for word in improper_names:
-            if word in datas['name'][col]:
-                datas['profile'][col] = 'improper_words'
-                break
+        if type(datas['name'][col]) == str:
+            for word in improper_names:
+                if word in datas['name'][col]:
+                    datas.loc['profile', col] = 'improper_words'
+                    break
         if type(datas['profile'][col]) == str:
             for word in improper_profiles:
                 if word in datas['profile'][col]:
-                    datas['text'][col] = 'improper_words'
+                    datas.loc['text', col] = 'improper_words'
                     break
         for word in improper_texts:
             if word in datas['text'][col]:
@@ -115,4 +119,5 @@ for i in range(37):
     plt.imshow(wordcloud)
     plt.axis("off")
     plt.savefig(outfile)
-    plt.show()
+    plt.close()
+#    plt.show()
