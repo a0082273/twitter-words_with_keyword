@@ -6,25 +6,27 @@ import re
 from collections import Counter
 from wordcloud import WordCloud
 
-keyword_list = ['sumou',
-                'tsururyuu', 'shiroootori', 'mareseinosato', 'kusamafuji',
-                'goueidou', 'takayasu', 'tochinokokoro',
-                'ontakeumi', 'tamawashi', 'matsuootoriyama',
-                'shoudai', 'konshoukiku', 'chiyonokuni', 'ahonoo', 'takashikeishou', 'kaihijiri',
-                'daishoumaru', 'kakaze', 'chiyodairyuu', 'takarafuji', 'daieishou',
-                'chiyoshouuma', 'asahidaihoshi', 'myougiryuu', 'yutakayama', 'chiyomaru',
-                'nishikiki', 'hekiyama', 'abusaki', 'sadanoumi', 'kouwashi', 'tochikouyama',
-                'asanoyama', 'konmegumihikari', 'okinoumi', 'ishiura', 'ryuuden',
-                'kitakachifuji', 'akiumi', 'hattorisakura',
-                '#sumo', '#sumou', '#oozumou', '#nagoyabasho',
+keyword_list = [
+                # 'sumou',
+                # 'tsururyuu', 'shiroootori', 'mareseinosato', 'kusamafuji',
+                # 'goueidou', 'takayasu', 'tochinokokoro',
+                # 'ontakeumi', 'tamawashi', 'matsuootoriyama',
+                # 'shoudai', 'konshoukiku', 'chiyonokuni', 'ahonoo', 'takashikeishou', 'kaihijiri',
+                # 'daishoumaru', 'kakaze', 'chiyodairyuu', 'takarafuji', 'daieishou',
+                # 'chiyoshouuma', 'asahidaihoshi', 'myougiryuu', 'yutakayama', 'chiyomaru',
+                # 'nishikiki', 'hekiyama', 'abusaki', 'sadanoumi', 'kouwashi', 'tochikouyama',
+                # 'asanoyama', 'konmegumihikari', 'okinoumi', 'ishiura', 'ryuuden',
+                # 'kitakachifuji', 'akiumi', 'hattorisakura',
+                # '#sumo', '#sumou', '#oozumou', '#nagoyabasho',
+                 'ena', 'nakatsugawa', 'tajimi', 'mizunami',
 ]
 
 
 for i in range(len(keyword_list)):
-    keyword = keyword_list[i+30]
-    period = '2018-07-16' #edit!!!!!!!!!
-    infile = "tweets_in_a_day/keyword/"+keyword+period+".csv" #edit!!!!!!!!!
-    outfile = "tweets_in_a_day/keyword/"+keyword+period+".png"
+    keyword = keyword_list[i]
+    period = '2018-07-18' #edit!!!!!!!!!
+    infile = "tweets_in_a_week/keyword/"+keyword+period+".csv" #edit!!!!!!!!!
+    outfile = "tweets_in_a_week/keyword/"+keyword+period+".png"
     datas = pd.read_csv(open(infile, 'rU'), encoding='utf-8')
 
 

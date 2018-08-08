@@ -2,6 +2,7 @@ trash/
 tweets_in_a_day/
 tweets_in_a_week/
 .ipynb_checkpoints/
+__pycache__/
 .env
 .DS_Store
 memo.txt

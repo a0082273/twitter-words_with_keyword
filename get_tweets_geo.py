@@ -17,7 +17,8 @@ load_dotenv(dotenv_path)
 CK= os.environ.get("CK")
 CS= os.environ.get("CS")
 AT= os.environ.get("AT")
-AS= os.environ.get("AS")
+# AS= os.environ.get("AS")
+AS = 'b9rC3W8LlNQrvrNKkSdlVNHrYcfFsQ1q47AhhD9A63h5T'
 
 
 class TweetsGetter(object):
@@ -211,52 +212,58 @@ if __name__ == '__main__':
     kakasi.setMode('J', 'a')
     conv = kakasi.getConverter()
 
-    location_dict = {'yamaoka': '35.329932,137.355972,5km', #山岡町全体
-                     'iwamura': '35.359858,137.438441,4km', #岩村町全体
-                     'okute': '35.439830,137.296237,3km', #大湫町
-#station
+    location_dict = {#'yamaoka': '35.329932,137.355972,5km', #山岡町全体
+                     #'iwamura': '35.359858,137.438441,4km', #岩村町全体
+                     #'okute': '35.439830,137.296237,3km', #大湫町
                      'nakatsugawa': '35.50009,137.502939,3km', #中津川駅中心に3km
                      'ena': '35.455031,137.40803,3km', #恵那駅
                      'mizunami': '35.369016,137.252072,3km', #瑞浪駅
-                     'tokishi': '35.359764,137.182195,3km', #土岐市
-                     'tajimi': '35.334979,137.121042,3km', #多治見
-                     'kozoji': '35.264438,137.043071,3km', #高蔵寺
-                     'kasugai': '35.243034,136.98509,3km', #春日井
-                     'kachigawa': '35.229857,136.956302,3km', #勝川
-                     'ozone': '35.191489,136.936846,3km', #大曽根
-                     'chikusa': '35.170167,136.930662,3km', #千種
-                     'tsurumai': '35.156389,136.917527,3km', #鶴舞
-                     'kanayama': '35.143045,136.900905,3km', #金山
-                     'nagoya': '35.171348,136.883000,3km', #名古屋駅
+                     'tokishi': '35.359764,137.182195,3km', #土岐市駅
+                     'tajimi': '35.334979,137.121042,3km', #多治見駅
+                     'nakatsugawa_eki': '35.50009,137.502939,0.5km', #中津川駅中心に0.5km
+                     'ena_eki': '35.455031,137.40803,0.5km', #恵那駅
+                     'mizunami_eki': '35.369016,137.252072,0.5km', #瑞浪駅
+                     'tokishi_eki': '35.359764,137.182195,0.5km', #土岐市駅
+                     'tajimi_eki': '35.334979,137.121042,0.5km', #多治見駅
+                     #'kozoji': '35.264438,137.043071,3km', #高蔵寺駅
+                     #'kasugai': '35.243034,136.98509,3km', #春日井駅
+                     #'kachigawa': '35.229857,136.956302,3km', #勝川駅
+                     #'ozone': '35.191489,136.936846,3km', #大曽根駅
+                     #'chikusa': '35.170167,136.930662,3km', #千種駅
+                     #'tsurumai': '35.156389,136.917527,3km', #鶴舞駅
+                     #'kanayama': '35.143045,136.900905,3km', #金山駅
+                     #'nagoya': '35.171348,136.883000,3km', #名古屋駅
 #
-                     'aichiken_taikukan': '35.183071,136.902576,0.2km'} #大相撲名古屋場所
-    location = list(location_dict.keys())[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    location_geo = list(location_dict.values())[-1]   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    since = '2018-07-08'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    until = '2018-07-09'   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
+                     #'aichiken_taikukan': '35.183071,136.902576,0.2km', #大相撲名古屋場所
+        }
 
-    getter = TweetsGetter.bySearch(location_geo+' since:'+since+' until:'+until)
+    for i in range(len(location_dict)):
+        location = list(location_dict.keys())[i]
+        location_geo = list(location_dict.values())[i]
+        since = '2018-08-08'   #edit!!!
+        until = '2018-08-15'   #edit!!!
 
-    df = pd.DataFrame(columns=["time", "id", "name", "profile", "n_following",
-                               "n_followed", "n_tweets", "adress", "n_favorited","text"])
-    for tweet in getter.collect(total = 30000):
-        date_time = (tweet["created_at"])
-        id = (tweet["user"]["screen_name"])
-        name = (tweet["user"]["name"])
-        profile = (tweet["user"]["description"])
-        n_following = (tweet["user"]["friends_count"])
-        n_followed = (tweet["user"]["followers_count"])
-        n_tweets = (tweet["user"]["statuses_count"])
-        addres = (tweet["user"]["location"])
-        n_favorited = (tweet["favorite_count"])
-        text = (tweet["text"])
+        getter = TweetsGetter.bySearch(location_geo+' since:'+since+' until:'+until)
 
-        new_col = pd.Series([date_time, id, name, profile, n_following,
-                             n_followed, n_tweets, addres, n_favorited, text],
-                            index=["time", "id", "name", "profile", "n_following",
+        df = pd.DataFrame(columns=["time", "id", "name", "profile", "n_following",
                                    "n_followed", "n_tweets", "adress", "n_favorited","text"])
+        for tweet in getter.collect(total = 30000):
+            date_time = (tweet["created_at"])
+            id = (tweet["user"]["screen_name"])
+            name = (tweet["user"]["name"])
+            profile = (tweet["user"]["description"])
+            n_following = (tweet["user"]["friends_count"])
+            n_followed = (tweet["user"]["followers_count"])
+            n_tweets = (tweet["user"]["statuses_count"])
+            addres = (tweet["user"]["location"])
+            n_favorited = (tweet["favorite_count"])
+            text = (tweet["text"])
 
-        df = df.append(new_col, ignore_index=True)
+            new_col = pd.Series([date_time, id, name, profile, n_following,
+                                 n_followed, n_tweets, addres, n_favorited, text],
+                                index=["time", "id", "name", "profile", "n_following",
+                                       "n_followed", "n_tweets", "adress", "n_favorited","text"])
 
-#    df.to_csv('tweets_in_a_week/geocode/'+location+since+'.csv')   #edit!!!!!!!!!!!!!!!!!!!!!!!!!!
-    df.to_csv('tweets_in_a_day/geocode/'+location+since+'.csv')
+            df = df.append(new_col, ignore_index=True)
+
+        df.to_csv('tweets_in_a_week/geocode/'+location+since+'.csv')   #edit!!!
